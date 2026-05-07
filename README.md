@@ -1,6 +1,6 @@
 # org-porfile
 
-Last updated: 2026-05-03.
+Last updated: 2026-05-08.
 
 ## Responsibility
 
@@ -29,7 +29,7 @@ No build or runtime setup is required for normal maintenance of this repository.
 
 ## Dependencies and contracts
 
-- content should stay consistent with the current platform naming and repository map
+- content should stay consistent with the current platform naming, repository map, and delivery posture
 - engineering and architecture truth remains owned by the central `docs` repository, not by this profile repository
 
 ## Deployment and operations notes
@@ -37,6 +37,7 @@ No build or runtime setup is required for normal maintenance of this repository.
 - this repository is not part of the automated runtime delivery chain
 - changes are content-oriented and should avoid exposing internal operational detail or stale architecture claims
 - the repository name is intentionally preserved as-is even though it contains a spelling inconsistency
+- public profile copy is written in technical English and should avoid placeholder repository names
 
 ## References
 
