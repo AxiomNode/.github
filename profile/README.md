@@ -35,7 +35,7 @@ flowchart LR
 
 ### Experience Layer
 
-- [`mobile-app`](https://github.com/AxiomNode/mobile-app): Kotlin Multiplatform client for Android, iOS, and Desktop JVM validation paths.
+- [`mobile-app`](https://github.com/AxiomNode/Mobile-App): Kotlin Multiplatform client for Android, iOS, and Desktop JVM validation paths.
 - [`backoffice`](https://github.com/AxiomNode/Backoffice): React operator console for diagnostics, inspection, and controlled admin actions.
 
 ### Public Edge And BFFs
@@ -48,7 +48,7 @@ flowchart LR
 
 - [`microservice-users`](https://github.com/AxiomNode/microservice-users): identity, sessions, roles, profile, stats, and leaderboard APIs.
 - [`microservice-quizz`](https://github.com/AxiomNode/microservice-quizz): quiz generation orchestration, validation, persistence, and catalog APIs.
-- [`microservice-wordpass`](https://github.com/AxiomNode/microservice-wordpass): word-pass generation orchestration, validation, persistence, and catalog APIs.
+- [`microservice-wordpass`](https://github.com/AxiomNode/microservice-word-pass): word-pass generation orchestration, validation, persistence, and catalog APIs.
 
 ### AI Capability
 
@@ -60,9 +60,8 @@ flowchart LR
 - [`contracts-and-schemas`](https://github.com/AxiomNode/contracts-and-schemas): canonical OpenAPI, JSON Schema, and event contracts.
 - [`shared-sdk-client`](https://github.com/AxiomNode/shared-sdk-client): shared SDK and integration helper workspace.
 - [`platform-infra`](https://github.com/AxiomNode/platform-infra): Kubernetes manifests, environment overlays, image build orchestration, and rollout workflows.
-- [`secrets`](https://github.com/AxiomNode/secrets): private source of truth for runtime secrets, local injection, sync validation, and hardcoded-secret audits.
+- `secrets` (private): runtime secrets governance; not publicly accessible.
 - [`observability-platform`](https://github.com/AxiomNode/observability-platform): dashboards, alert rules, and shared observability assets.
-- [`runtime-seed`](https://github.com/AxiomNode/runtime-seed): seed-data generation and repair tooling for persisted educational inventories.
 
 ## Technology Stack
 
