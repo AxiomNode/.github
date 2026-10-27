@@ -1,0 +1,11 @@
+{
+  "accent": "#1E44EA",
+  "icon_alt": {
+    "en": "AxiomNode logo: the blue AxiomNode wordmark on a white rounded square",
+    "es": "Logo de AxiomNode: el logotipo azul de AxiomNode sobre un cuadrado redondeado blanco"
+  },
+  "banner_alt": {
+    "en": "AxiomNode banner: the logo, the tagline \"Production-grade microservices platform\" and the stack (TypeScript, Python, Kotlin, Kubernetes, Docker)",
+    "es": "Banner de AxiomNode: el logo, el lema \"Plataforma de microservicios de nivel producción\" y el stack (TypeScript, Python, Kotlin, Kubernetes, Docker)"
+  }
+}
