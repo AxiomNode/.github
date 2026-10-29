@@ -1,18 +1,8 @@
 # AxiomNode
 
-**AxiomNode** is an educational AI platform built as a multi-repository, microservice-oriented system. It combines mobile gameplay, an operator Backoffice, domain services, local/split LLM infrastructure, RAG-backed generation, CI/CD automation, observability, and centralized secrets governance.
+**AxiomNode** is an educational AI platform built as a set of microservices, developed as a Master's thesis project. A Kotlin Multiplatform mobile app and a React backoffice talk to an API gateway and Fastify BFFs, which orchestrate domain services backed by PostgreSQL and a Python AI engine (RAG + LLM) that generates quiz and word-pass content. It ships to Kubernetes (k3s) with CI/CD and observability, and every repository carries its own tests, docs and quality gates.
 
-The project is maintained as a Master's Thesis implementation, but the repositories are structured like a real platform: clear service boundaries, contract ownership, runtime diagnostics, deployment automation, and explicit documentation responsibility.
-
-## What The Platform Does
-
-- Generates and curates educational quiz and word-pass content through an internal AI Engine.
-- Serves mobile-friendly gameplay APIs through a public gateway and mobile BFF.
-- Provides an operator Backoffice for service inspection, runtime diagnostics, AI target visibility, and role-gated operations.
-- Keeps shared contracts, SDK artifacts, infrastructure manifests, and secrets governance in dedicated repositories.
-- Supports local development, staging rollouts on k3s, and controlled production promotion.
-
-## Current Architecture
+## Architecture
 
 ```mermaid
 flowchart LR
@@ -22,7 +12,7 @@ flowchart LR
 	Gateway --> BffBackoffice[bff-backoffice]
 	BffMobile --> Users[microservice-users]
 	BffMobile --> Quiz[microservice-quizz]
-	BffMobile --> Wordpass[microservice-wordpass]
+	BffMobile --> Wordpass[microservice-word-pass]
 	BffBackoffice --> Users
 	BffBackoffice --> Quiz
 	BffBackoffice --> Wordpass
@@ -31,62 +21,49 @@ flowchart LR
 	BffBackoffice --> AI
 ```
 
-## Repository Map
+## Repositories
 
-### Experience Layer
+| Repository | What it is |
+|---|---|
+| [Mobile-App](https://github.com/AxiomNode/Mobile-App) | Kotlin Multiplatform (Compose) client for quiz and word-pass gameplay on Android and iOS |
+| [Backoffice](https://github.com/AxiomNode/Backoffice) | React + TypeScript + Vite operations console: health and metrics, AI diagnostics, role-gated admin actions |
+| [api-gateway](https://github.com/AxiomNode/api-gateway) | Fastify edge gateway: single public entry point routing to the BFFs and the AI runtime target |
+| [bff-mobile](https://github.com/AxiomNode/bff-mobile) | Fastify BFF with mobile-shaped gameplay APIs over the domain microservices |
+| [bff-backoffice](https://github.com/AxiomNode/bff-backoffice) | Fastify BFF and runtime control plane for the Backoffice |
+| [microservice-users](https://github.com/AxiomNode/microservice-users) | Player identity (Firebase auth), roles, gameplay events, stats and leaderboards |
+| [microservice-quizz](https://github.com/AxiomNode/microservice-quizz) | Quiz domain: generation via the AI engine, validation, persistence and history |
+| [microservice-word-pass](https://github.com/AxiomNode/microservice-word-pass) | Word-pass domain: generation via the AI engine, validation, persistence and history |
+| [ai-engine](https://github.com/AxiomNode/ai-engine) | Python/FastAPI AI engine: RAG ingestion, local/split llama inference, structured game generation |
+| [contracts-and-schemas](https://github.com/AxiomNode/contracts-and-schemas) | Versioned OpenAPI specs, JSON Schemas and event contracts |
+| [shared-sdk-client](https://github.com/AxiomNode/shared-sdk-client) | Shared SDK workspace: TypeScript client generated from the contracts, plus Python and Kotlin scaffolds |
+| [platform-infra](https://github.com/AxiomNode/platform-infra) | Kubernetes (k3s/Kustomize) manifests, environment overlays, image builds and staging rollout |
+| [observability-platform](https://github.com/AxiomNode/observability-platform) | Dashboards, alert rules and base stack definitions for metrics, logs and traces |
+| [docs](https://github.com/AxiomNode/docs) | Architecture (C4 views, ADRs), capability dossiers, guides and runbooks |
 
-- [`mobile-app`](https://github.com/AxiomNode/Mobile-App): Kotlin Multiplatform client for Android, iOS, and Desktop JVM validation paths.
-- [`backoffice`](https://github.com/AxiomNode/Backoffice): React operator console for diagnostics, inspection, and controlled admin actions.
+## Tech stack
 
-### Public Edge And BFFs
+- **Mobile:** Kotlin Multiplatform, Compose, Firebase authentication
+- **Web:** React, TypeScript, Vite
+- **Backend:** Fastify, TypeScript, Zod, Prisma, PostgreSQL
+- **AI:** Python, FastAPI, RAG, local or split llama-compatible inference, structured generation
+- **Delivery:** GitHub Actions, GHCR, Docker, Kubernetes (k3s), Kustomize
+- **Observability:** metrics, logs and traces with shared dashboards and alert rules
 
-- [`api-gateway`](https://github.com/AxiomNode/api-gateway): public ingress for mobile and Backoffice traffic.
-- [`bff-mobile`](https://github.com/AxiomNode/bff-mobile): mobile-shaped orchestration layer.
-- [`bff-backoffice`](https://github.com/AxiomNode/bff-backoffice): operator BFF and runtime control surface.
+## Quality bar
 
-### Domain Services
+- **90 % coverage gates** enforced in CI (Vitest thresholds on the TypeScript services, `fail_under` on the Python engine)
+- **CodeQL and Trivy** scans in every service repository
+- **Contract-first:** OpenAPI and JSON Schemas live in one repository and the SDK client is generated from them
+- **Automated rollout:** a green push to `main` builds images and rolls out staging with smoke checks; production is a controlled manual promotion
 
-- [`microservice-users`](https://github.com/AxiomNode/microservice-users): identity, sessions, roles, profile, stats, and leaderboard APIs.
-- [`microservice-quizz`](https://github.com/AxiomNode/microservice-quizz): quiz generation orchestration, validation, persistence, and catalog APIs.
-- [`microservice-wordpass`](https://github.com/AxiomNode/microservice-word-pass): word-pass generation orchestration, validation, persistence, and catalog APIs.
+## Run it locally
 
-### AI Capability
-
-- [`ai-engine`](https://github.com/AxiomNode/ai-engine): FastAPI-based AI service for RAG ingestion, structured game generation, local/split llama routing, cache behavior, and observability APIs.
-
-### Governance And Operations
-
-- [`docs`](https://github.com/AxiomNode/docs): central architecture, operational, validation, and capability documentation.
-- [`contracts-and-schemas`](https://github.com/AxiomNode/contracts-and-schemas): canonical OpenAPI, JSON Schema, and event contracts.
-- [`shared-sdk-client`](https://github.com/AxiomNode/shared-sdk-client): shared SDK and integration helper workspace.
-- [`platform-infra`](https://github.com/AxiomNode/platform-infra): Kubernetes manifests, environment overlays, image build orchestration, and rollout workflows.
-- `secrets` (private): runtime secrets governance; not publicly accessible.
-- [`observability-platform`](https://github.com/AxiomNode/observability-platform): dashboards, alert rules, and shared observability assets.
-
-## Technology Stack
-
-- **Frontend:** React, TypeScript, Vite, Material Design-oriented Backoffice UI.
-- **Mobile:** Kotlin Multiplatform, Compose, Firebase/Google authentication integration.
-- **Backend:** Fastify, TypeScript, FastAPI, Python, Zod, Prisma.
-- **Data:** PostgreSQL, local JSON stores for selected BFF state, Chroma-backed RAG storage, Redis/cache integrations where configured.
-- **AI Runtime:** local or split llama-compatible inference, structured prompts, RAG, KBD grounding, generation evaluation, and AI diagnostics.
-- **Delivery:** GitHub Actions, GHCR, Docker, Kubernetes/k3s, Kustomize, environment overlays.
-- **Governance:** contract validation, repository-scoped docs, centralized secrets injection, smoke tests, and CI-gated staging rollout.
-
-## Current Delivery Model
-
-Service repositories validate their own code first. Successful pushes to `main` dispatch `platform-infra` to build and publish images, then staging is rolled out automatically with smoke checks. Production remains a controlled manual promotion target.
-
-`ai-engine` can run in split topology: API/stats services may be deployed in-cluster while the llama runtime remains external or workstation-hosted. Effective AI routing is therefore observable and controllable at runtime.
-
-## Access And Review
-
-Backoffice access is role-gated through `microservice-users`. The current role model includes `SuperAdmin`, `Admin`, `Inspector`, `Viewer`, and `Gamer`. `Inspector` is a read-only review role intended for academic or operational inspection: it can inspect role assignments and diagnostics without changing user permissions.
+No private configuration needed: clone the services and start the demo stack with Docker Compose (local Postgres, Firebase in dev mode, AI generation optional). Step-by-step guide: [platform-infra/docs/RUN-LOCALLY.md](https://github.com/AxiomNode/platform-infra/blob/main/docs/RUN-LOCALLY.md).
 
 ## Documentation
 
-Start with [`docs`](https://github.com/AxiomNode/docs) for the current architecture, repository map, CI/CD workflow, runtime routing model, validation workflows, and operations guides. Repository-local README files document concrete local setup, ownership boundaries, endpoints, and validation commands.
+Start with [`docs`](https://github.com/AxiomNode/docs). Each repository's own README covers local setup, endpoints and validation commands.
 
 ## License
 
-The public repositories are distributed under the MIT License unless a repository states otherwise.
+Public repositories are distributed under the MIT License unless a repository states otherwise.
