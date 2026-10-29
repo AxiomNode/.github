@@ -56,6 +56,10 @@ flowchart LR
 - **Contract-first:** OpenAPI and JSON Schemas live in one repository and the SDK client is generated from them
 - **Automated rollout:** a green push to `main` builds images and rolls out staging with smoke checks; production is a controlled manual promotion
 
+## Run it locally
+
+No private configuration needed: clone the services and start the demo stack with Docker Compose (local Postgres, Firebase in dev mode, AI generation optional). Step-by-step guide: [platform-infra/docs/RUN-LOCALLY.md](https://github.com/AxiomNode/platform-infra/blob/main/docs/RUN-LOCALLY.md).
+
 ## Documentation
 
 Start with [`docs`](https://github.com/AxiomNode/docs). Each repository's own README covers local setup, endpoints and validation commands.
