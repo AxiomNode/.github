@@ -36,7 +36,7 @@ flowchart LR
 | [ai-engine](https://github.com/AxiomNode/ai-engine) | Python/FastAPI AI engine: RAG ingestion, local/split llama inference, structured game generation |
 | [contracts-and-schemas](https://github.com/AxiomNode/contracts-and-schemas) | Versioned OpenAPI specs, JSON Schemas and event contracts |
 | [shared-sdk-client](https://github.com/AxiomNode/shared-sdk-client) | Shared SDK workspace: TypeScript client generated from the contracts, plus Python and Kotlin scaffolds |
-| [platform-infra](https://github.com/AxiomNode/platform-infra) | Kubernetes (k3s/Kustomize) manifests, environment overlays, image builds and staging rollout |
+| [platform-infra](https://github.com/AxiomNode/platform-infra) | Kubernetes (k3s/Kustomize) manifests, environment overlays, image builds and the (historical) staging rollout |
 | [observability-platform](https://github.com/AxiomNode/observability-platform) | Dashboards, alert rules and base stack definitions for metrics, logs and traces |
 | [docs](https://github.com/AxiomNode/docs) | Architecture (C4 views, ADRs), capability dossiers, guides and runbooks |
 
@@ -54,7 +54,7 @@ flowchart LR
 - **90 % coverage gates** enforced in CI (Vitest thresholds on the TypeScript services, `fail_under` on the Python engine)
 - **CodeQL and Trivy** scans in every service repository
 - **Contract-first:** OpenAPI and JSON Schemas live in one repository and the SDK client is generated from them
-- **Automated rollout:** a green push to `main` builds images and rolls out staging with smoke checks; production is a controlled manual promotion
+- **Rollout:** during the thesis, a green push to `main` built images and rolled out staging with smoke checks on k3s; production was a controlled manual promotion. That k3s host is gone, `deploy.yaml` is now manual-only, and the stack runs locally with Docker Compose (see [RUN-LOCALLY.md](https://github.com/AxiomNode/platform-infra/blob/main/docs/RUN-LOCALLY.md))
 
 ## Run it locally
 
