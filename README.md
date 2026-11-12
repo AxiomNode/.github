@@ -1,6 +1,6 @@
 # AxiomNode
 
-**AxiomNode** is an educational AI platform built as a set of microservices, developed as a Master's thesis project. A Kotlin Multiplatform mobile app and a React backoffice talk to an API gateway and Fastify BFFs, which orchestrate domain services backed by PostgreSQL and a Python AI engine (RAG + LLM) that generates quiz and word-pass content. It ships to Kubernetes (k3s) with CI/CD and observability, and every repository carries its own tests, docs and quality gates.
+**AxiomNode** is an educational AI platform built as a set of microservices, developed as a Master's thesis project. A Kotlin Multiplatform mobile app and a React backoffice talk to an API gateway and Fastify BFFs, which orchestrate domain services backed by PostgreSQL and a Python AI engine (RAG + LLM) that generates quiz and word-pass content. It has CI/CD, Kubernetes (k3s) manifests and observability definitions, and each repository carries its own tests and docs; the quality gates that apply are listed below.
 
 ## Architecture
 
@@ -46,13 +46,13 @@ flowchart LR
 - **Web:** React, TypeScript, Vite
 - **Backend:** Fastify, TypeScript, Zod, Prisma, PostgreSQL
 - **AI:** Python, FastAPI, RAG, local or split llama-compatible inference, structured generation
-- **Delivery:** GitHub Actions, GHCR, Docker, Kubernetes (k3s), Kustomize
+- **Delivery:** GitHub Actions, GHCR, Docker, Kubernetes (k3s) manifests with Kustomize
 - **Observability:** metrics, logs and traces with shared dashboards and alert rules
 
 ## Quality bar
 
-- **90 % coverage gates** enforced in CI (Vitest thresholds on the TypeScript services, `fail_under` on the Python engine)
-- **CodeQL and Trivy** scans in every service repository
+- **Coverage gates** enforced in CI: Vitest thresholds of 90 % for lines, statements and functions in Backoffice, api-gateway, bff-backoffice, bff-mobile, microservice-quizz, microservice-users and microservice-word-pass (branch thresholds are 90 %, except 85 % in Backoffice and 88 % in bff-backoffice), and a 90 % `fail_under` with branch coverage on the Python ai-engine. The other repositories have no coverage gate
+- **CodeQL and Trivy** scans (CodeQL analysis plus a Trivy filesystem scan, run on push, pull request and a weekly schedule) in Backoffice, ai-engine, api-gateway, bff-backoffice, bff-mobile, microservice-quizz, microservice-users and microservice-word-pass. Mobile-App, contracts-and-schemas, docs, observability-platform, platform-infra and shared-sdk-client do not run them
 - **Contract-first:** OpenAPI and JSON Schemas live in one repository and the SDK client is generated from them
 - **Rollout:** during the thesis, a green push to `main` built images and rolled out staging with smoke checks on k3s; production was a controlled manual promotion. That k3s host is gone, `deploy.yaml` is now manual-only, and the stack runs locally with Docker Compose (see [RUN-LOCALLY.md](https://github.com/AxiomNode/platform-infra/blob/main/docs/RUN-LOCALLY.md))
 
@@ -66,4 +66,4 @@ Start with [`docs`](https://github.com/AxiomNode/docs). Each repository's own RE
 
 ## License
 
-Public repositories are distributed under the MIT License unless a repository states otherwise.
+All repositories are distributed under the Apache License 2.0, except this `.github` repository, which is MIT. Each repository's `LICENSE` file is authoritative.
